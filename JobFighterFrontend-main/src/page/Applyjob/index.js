@@ -348,7 +348,7 @@ export default function Applyjob(){
             <div class="flex items-center justify-center">
             <button
               class="bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 mt-3 mb-4 hover:bg-[#1F795E] hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:outline-none "
-            onClick={handleClick} disabled = {(final==='Found' ||final2==='clicked')&& user.role === 'student' }
+            onClick={handleClick} disabled = {final==='Found' ||final2==='clicked' }
             >
               <div className="flex space-x-2">
               <svg class="h-8 w-8 mt-1 text-yellow-500"

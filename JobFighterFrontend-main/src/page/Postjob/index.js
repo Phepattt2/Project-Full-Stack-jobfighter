@@ -10,7 +10,7 @@ const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university
 
 export default function Postjob(){
 
-  var { user } = useSelector((state) => ({ ...state }));
+  let { user } = useSelector((state) => ({ ...state }));
   const [provinces,setProvice] = useState([]) 
   const [colleges,setCollege] = useState([]) 
   const [postdata,setPost] = useState({
@@ -89,7 +89,6 @@ export default function Postjob(){
         }
       }
       console.log('postdata',postdata)
-      
       // send header with token !!!//
       axios.post(process.env.REACT_APP_API+'/posts',postdata,{headers:{'authorization':`Bearer ${user.token}`} })
       // res
@@ -279,12 +278,12 @@ export default function Postjob(){
                 <Typography variant="body2">
                         ระยะเวลาการโพสต์
                 </Typography>
-                <select name="postDateExpire" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" onChange={handleChange}>
-                <opion></opion>
-                <option>United States</option>
-                <option>Canada</option>
-                <option>France</option>
-                <option>Germany</option>
+                <select name="postDateExpire" className="text-black text-sm rounded-lg ring-2 ring-black focus:ring-black-500 focus:border-black-500 block w-[250px] p-2.5" 
+                onChange={handleChange}>
+                <option value = '1'>1hr</option>
+                <option value = '2'>2 hrs</option>
+                <option value = '3'>3 hrs</option>
+                <option value = '4'>4 hs</option>
                 </select>
                 </div>
                 

@@ -7,6 +7,8 @@ let jwt = require("jsonwebtoken");
 // POST /users
 // access  Public
 
+
+
 const registerUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   
@@ -71,6 +73,10 @@ const loginUser = asyncHandler(async (req, res) => {
       payload, token: generateToken(user._id)
     });
     console.log("Login success")
+    if (user.role === 'admin')
+    {
+      console.log('hello admin!!')
+    } 
   } else {
     res.status(400);
     throw new Error("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง");

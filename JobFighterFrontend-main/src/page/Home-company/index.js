@@ -21,8 +21,11 @@ function index() {
             <span>Job Fighter</span>
           </div>
           {/* link to หน้าสร้างโพสต์ */}
-          <Link to="/search" >
+          <Link to="/postjob" >
             <button className="button i-button">สร้างโพสต์</button>
+          </Link>
+          <Link to="/search" >
+            <button className="button i-button">ค้นหาโพสต์</button>
           </Link>
         </div>
         {/* right */}
