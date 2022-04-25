@@ -6,17 +6,28 @@ import axios from 'axios';
 
 const Testzzz = () => {
   const [img,Setimg] = useState()
+
+  var a = document.createElement("a"); //Create <a>
+
   async function fetchFirstJsonData(){  
     const response = await  axios.get(process.env.REACT_APP_API+`/submitjob`)
-    console.log(response.data[6].resume)
-    Setimg(response.data[6].resume)
+    console.log(response.data[1].resume)
+    console.log('type',response.data[1].resume.type)
+
+    Setimg(response.data[1].resume)
   }
 
   useEffect(()=> {
     fetchFirstJsonData()
   },[])
 
-  console.log('img :',img)
+//dowload file ready to use!!!! 
+  // console.log('img :',img)
+  // a.href = img; //Image Base64 Goes here
+  // a.download = "Imagekk.pdf"; //File name Here
+  // a.click(); //Downloaded file
+
+
   return (
     <div>testzzz
   <h1>Hello world</h1>

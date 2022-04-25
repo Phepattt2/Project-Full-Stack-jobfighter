@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/J-Punnawich/MERN-project-backend#readme",
   "dependencies": {
+    "@react-pdf/renderer": "^2.1.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "colors": "^1.4.0",
