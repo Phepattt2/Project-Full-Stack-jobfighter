@@ -27,11 +27,10 @@ const GetSearch = asyncHandler(async (req, res) => {
       var posts = await postSchema.find(req.body).populate('user')
     }
     res.status(200).json(posts)
-  
+    console.log(posts)
   }
   catch(err){
       console.log('Getsearch is error!')
-      
     } 
 })
 

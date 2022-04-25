@@ -11,15 +11,33 @@ import { Link } from "react-router-dom";
 const API_PROVINCE = 'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json'
 const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university-database/master/dist/universities-pretty.json'
 
+
+
+
 /* Pagination */
 function Send_data() {
   const [colleges,setCollege] = useState([])
   const [provinces,setProvice] = useState([]) 
+  var feed = []
+  var temp 
   async function fetchFirstJsonData(){  
     const response = await  axios.post(process.env.REACT_APP_API+'/search')
     JsonData = response.data
     console.log('fetch first')
+    const boosted = await axios.post(process.env.REACT_APP_API+'/search',{'boost':true})
+    temp = boosted.data
+    console.log('templength',temp.length)
+    feed.push(temp)
+    const notboosted = await axios.post(process.env.REACT_APP_API+'/search',{'boost':false})
+    temp = notboosted.data
+    console.log('templength',temp.length)
+
+    feed.push(temp)
+    
+    console.log('filtered:',feed)
+    console.log('testJSONDATA:',JsonData)
     setUsers(JsonData)
+
     console.log(JsonData.length)
     console.log('id',JsonData[1]._id)
   }
@@ -60,10 +78,6 @@ function Send_data() {
     }
   }
 
-
-
-
-
   const handleChange = (e) => {
     console.log(e.target.name ,e.target.value )
     setValue({
@@ -79,14 +93,16 @@ function Send_data() {
       if (value[keyV[i]] === '' || value[keyV[i]] === 0){
         delete value[keyV[i]]
       }
+      setPageNumber(0)
+
     }
+    
     console.log('value',value)
     axios.post(process.env.REACT_APP_API+'/search',value)
     .then(res => {
       console.log('respond is ',res.data)
       console.log('respond length is ',res.data.length)
       setUsers(res.data)
-      
     })
 
 }

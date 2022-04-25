@@ -2,6 +2,7 @@ let jwt = require("jsonwebtoken");
     bcrypt = require("bcrypt");
     asyncHandler = require("express-async-handler");
     User = require("../models/userModel");
+const postSchema = require('../models/postModel')
 
 // Register new user
 // POST /users
@@ -60,6 +61,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user && (await bcrypt.compare(password, user.password))) {
+    let collecDel = []
     
     const payload = {
       user: {
@@ -73,10 +75,34 @@ const loginUser = asyncHandler(async (req, res) => {
       payload, token: generateToken(user._id)
     });
     console.log("Login success")
+
+
     if (user.role === 'admin')
     {
-      console.log('hello admin!!')
+      const posts = await postSchema.find( {postDateExpire : {$ne:''}})
+      console.log('total posts : ',posts.length)
+
+      for (var i = 0 ; i < posts.length ; i++){
+       var  dateExp = posts[i].postDateExpire
+       var result = new Date().getTime() > new Date(dateExp).getTime()
+       console.log(i)
+       console.log(posts[i].id,' ',i,' ',result)
+       if (result === true){
+       var delSh  =  await postSchema.findByIdAndDelete(posts[i].id)
+       console.log(posts[i].id,' ',i,' del')
+
+      }
+    
+    
+    }
+      
+
     } 
+
+
+
+
+
   } else {
     res.status(400);
     throw new Error("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง");
@@ -90,7 +116,6 @@ const updateUser = asyncHandler(async (req, res) => {
 
   try{
     const user = await userSchema.findById( req.user.id)
-
     if(!user){
       res.status(400);
       throw new Error("User not exists");
@@ -120,7 +145,6 @@ const currentUser = asyncHandler(async (req, res) => {
   // const user = await userSchema.findById(req.id)
   console.log('Currentuser',req.user)
   res.status(200).json(req.user);
-  
   }catch(err){
     console.log(err)
     res.status(500).send('Server Error!')
@@ -130,7 +154,7 @@ const currentUser = asyncHandler(async (req, res) => {
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "1d",
   });
 };
 

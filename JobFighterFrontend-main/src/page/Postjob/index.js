@@ -72,11 +72,23 @@ export default function Postjob(){
     console.log(postdata.boost)
 
   const handleChange = (e) => {
+      const d =  Date.now()
       console.log(e.target.name ,e.target.value )
-      setPost({
-        ...postdata,
-        [e.target.name]:e.target.value
-      })
+      if(e.target.name === 'postDateExpire' ){
+        let addtime = e.target.value*3600000
+        let settime = addtime+d
+        const exp = new Date(settime)
+        setPost({
+          ...postdata,
+          [e.target.name]:exp
+        })
+     
+      }else{
+        setPost({
+          ...postdata,
+          [e.target.name]:e.target.value
+        })
+      }
     }
   
   const handleSubmit = (e) => {
