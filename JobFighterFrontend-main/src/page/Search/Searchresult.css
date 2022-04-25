@@ -1,4 +1,7 @@
 /*ปุ่มลิ้งหน้า*/
+  .disabledCursor { 
+    cursor: default;
+  }
   .paginationBttns {
     width: 80%;
     height: 40px;

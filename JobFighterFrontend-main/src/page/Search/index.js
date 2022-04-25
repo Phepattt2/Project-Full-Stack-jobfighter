@@ -9,11 +9,11 @@ import JsonData from "./MOCK_DATA.json";
 import "./Searchresult.css"; 
 import { Link } from "react-router-dom";
 const API_PROVINCE = 'https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json'
-
+const API_COLLEGE = 'https://raw.githubusercontent.com/MicroBenz/thai-university-database/master/dist/universities-pretty.json'
 
 /* Pagination */
 function Send_data() {
-
+  const [colleges,setCollege] = useState([])
   const [provinces,setProvice] = useState([]) 
   async function fetchFirstJsonData(){  
     const response = await  axios.post(process.env.REACT_APP_API+'/search')
@@ -23,13 +23,18 @@ function Send_data() {
     console.log(JsonData.length)
     console.log('id',JsonData[1]._id)
   }
-
+  async function fetchCollegesName(){  
+    const response = await fetch(API_COLLEGE)
+    const data = await response.json() 
+    setCollege(data)
+  }
   async function fetchProvincesName(){  
     const response = await fetch(API_PROVINCE)
     const data = await response.json() 
     setProvice(data)
   }
   useEffect(()=> {
+    fetchCollegesName()
     fetchProvincesName()
     fetchFirstJsonData()
   },[])
@@ -105,7 +110,8 @@ function Send_data() {
     ) /* สมมติอยู่ในหน้าที่ 6 ก็เเสดงว่าเราเห็นผู้ใช้มาเเล้ว 18 คน , ต่อไปก็หน้าที่ 7 คือหน้าที่ต้องการอันดับเเรก จึงเปนตัวเเปรนี้ + หน้าที่เยี่ยมชมรวมถึงจน.ผู้ใช้ต่อหน้า หน้าที่ 6 มี item 18 ซึ่ง pagesVisited = 18 + 3 */
     .map((users,index) => {
       return (
-        <Link to= {`/applyjob/?id=${users._id}`} class="text-decoration-none">
+        // เพิ่มให้คลืกไม่ได้ถ้าไมใช้ role student จะได้ไม่ค้องทำหน้าสมัครงานเพิ่ม
+        <Link to= {`/applyjob/?id=${users._id}`} class="text-decoration-none" >
           <div className="">
             {/* ผลการค้นหา ที่เเสดง card ออกมาเป็นบล็อคๆ*/}
             <div className="w-3/4 w-100 h-55 rounded-xl bg-white drop-shadow-md p-2 my-4 font-sans">
@@ -187,9 +193,10 @@ function Send_data() {
                   className=" w-100 h-10 rounded-xl bg-white drop-shadow-md "
                   onChange={handleChange}
                 >
-                  <option></option>
-                  <option>ลาดกระบัง</option>
-                  <option>ธรรมศาสตร์</option>
+                   <option></option>
+                        {colleges.map((item)=>
+                        <option>{item.university}</option>
+                        )}
                 </select>
 
                 {/* คณะ */}
