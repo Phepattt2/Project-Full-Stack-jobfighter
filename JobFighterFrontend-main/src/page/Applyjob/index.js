@@ -21,7 +21,12 @@ export default function Applyjob(){
 
   let value = params.id;
 
+  const [click, setClick] = useState({
+    ClickYes : false,
+    canClick : true
+  })
 
+ 
   const [PostData,SetPostData] = useState([])
   const [final2,Setfinal2] = useState([])
   const [final,Setfinal] = useState([])
@@ -37,6 +42,11 @@ export default function Applyjob(){
   async function handleClick (e)  {
     // console.log('clicked')
     // console.log(sendData)
+    setClick({
+      canClick: false,
+      ClickYes : true,
+    });
+     
     console.log('this is img 64data : ',sendData.resume)
     Setfinal2("clicked")
     const response = await  axios.post(process.env.REACT_APP_API+'/submitjob/', sendData ,{headers:{'authorization':`Bearer ${user.token}`}} )
@@ -347,8 +357,8 @@ export default function Applyjob(){
             </div>
             <div class="flex items-center justify-center">
             <button
-              class="bg-[#24AB82] drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 mt-3 mb-4 hover:bg-[#1F795E] hover:ring-2 hover:ring-white focus:ring-2 focus:ring-white focus:outline-none "
-            onClick={handleClick} disabled = {final==='Found' ||final2==='clicked' }
+              className={` ${ click.ClickYes || final==='Found' ||final2==='clicked' ?  'bg-[#E2E2E2] hover:bg-[#E2E2E2]' :'bg-[#24AB82] hover:bg-[#1F795E] hover:ring-2 hover:ring-white' }  drop-shadow-md font-bold text-white text-2xl rounded-xl px-6 py-2.5 `}
+              onClick={handleClick} disabled = {final==='Found' ||final2==='clicked'}
             >
               <div className="flex space-x-2">
               <svg class="h-8 w-8 mt-1 text-yellow-500"
@@ -365,6 +375,7 @@ export default function Applyjob(){
               </div>
                   </button>
             </div>
+            <div className="h-10 w-200 bg-gray-200   rounded-lg "></div>
         </div>
         </ThemeProvider>
     );
